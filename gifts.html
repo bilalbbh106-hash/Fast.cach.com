@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الهدايا - Fast Cach</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* تنسيقات خاصة بمتجر الهدايا */
+        .gifts-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .gifts-header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gifts-header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .gifts-header::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            right: -80px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .categories-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .categories-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .category-tab {
+            padding: 12px 25px;
+            background-color: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        
+        .category-tab:hover {
+            background-color: #e9ecef;
+        }
+        
+        .category-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .category-icon {
+            margin-left: 8px;
+        }
+        
+        .search-section {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+        }
+        
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .gift-card-large {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .gift-card-large:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .gift-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .gift-badge.hot {
+            background-color: #e74c3c;
+        }
+        
+        .gift-badge.new {
+            background-color: #2ecc71;
+        }
+        
+        .gift-badge.limited {
+            background-color: #f39c12;
+        }
+        
+        .gift-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .gift-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gift-card-large:hover .gift-image img {
+            transform: scale(1.1);
+        }
+        
+        .gift-stock-overlay {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .gift-content {
+            padding: 25px;
+        }
+        
+        .gift-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        
+        .gift-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            min-height: 60px;
+        }
+        
+        .gift-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .gift-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-color);
+        }
+        
+        .gift-stock {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .stock-low {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        
+        .gift-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .levels-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+        
+        .levels-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--dark-color);
+        }
+        
+        .levels-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+        
+        .level-card {
+            min-width: 200px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            border: 3px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .level-card.current {
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        }
+        
+        .level-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .level-card.current .level-icon {
+            color: var(--secondary-color);
+        }
+        
+        .level-name {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .level-card.current .level-name {
+            color: var(--primary-color);
+        }
+        
+        .level-reward {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .level-requirements {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .how-to-redeem {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 40px;
+        }
+        
+        .how-to-redeem h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .redeem-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .redeem-step {
+            text-align: center;
+        }
+        
+        .redeem-step i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .redeem-step h3 {
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .no-gifts {
+            text-align: center;
+            padding: 50px;
+            grid-column: 1 / -1;
+        }
+        
+        .no-gifts i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .gifts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .levels-container {
+                flex-direction: column;
+            }
+            
+            .level-card {
+                min-width: 100%;
+            }
+            
+            .search-section {
+                flex-direction: column;
+            }
+            
+            .gift-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="assets/logo.png" alt="Fast Cach Logo" class="logo">
+                <h1 class="site-title">Fast<span>Cach</span></h1>
+            </div>
+            
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="offers.html"><i class="fas fa-tasks"></i> المهام والعروض</a>
+                <a href="gifts.html" class="active"><i class="fas fa-gift"></i> الهدايا والمستويات</a>
+                <a href="dashboard.html"><i class="fas fa-user-circle"></i> لوحة التحكم</a>
+            </div>
+            
+            <div class="user-section">
+                <div class="balance-display">
+                    <i class="fas fa-wallet"></i>
+                    <span id="userBalance">$15.75</span>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                    </button>
+                    <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
+                        <i class="fas fa-user-circle"></i> حسابي
+                    </button>
+                </div>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- محتوى متجر الهدايا -->
+    <div class="gifts-container">
+        <!-- رأس الصفحة -->
+        <div class="gifts-header">
+            <h1 style="font-size: 2.5rem; margin-bottom: 10px; position: relative; z-index: 1;">متجر الهدايا</h1>
+            <p style="font-size: 1.2rem; opacity: 0.9; position: relative; z-index: 1;">استبدل دولاراتك ببطاقات هدايا، سحب أموال، وأكثر!</p>
+        </div>
+
+        <!-- قسم التصنيفات -->
+        <div class="categories-section">
+            <h3 style="margin-bottom: 20px;"><i class="fas fa-tags"></i> تصنيفات الهدايا</h3>
+            
+            <div class="categories-tabs" id="categoriesTabs">
+                <!-- سيتم تعبئتها جافاسكريبت -->
+            </div>
+            
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="giftSearch" placeholder="ابحث عن هدية...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <button class="btn btn-primary" onclick="filterGifts()">
+                    <i class="fas fa-filter"></i> بحث
+                </button>
+                <button class="btn btn-outline" onclick="resetGiftFilters()">
+                    <i class="fas fa-redo"></i> إعادة تعيين
+                </button>
+            </div>
+        </div>
+
+        <!-- شبكة الهدايا -->
+        <div class="gifts-grid" id="giftsGrid">
+            <!-- سيتم تعبئتها جافاسكريبت -->
+        </div>
+
+        <!-- قسم المستويات والمكافآت -->
+        <div class="levels-section">
+            <h2 class="levels-title"><i class="fas fa-trophy"></i> مستويات العضوية</h2>
+            
+            <div class="levels-container">
+                <div class="level-card">
+                    <i class="fas fa-user level-icon"></i>
+                    <h3 class="level-name">مبتدئ</h3>
+                    <div class="level-reward">مكافآت عادية</div>
+                    <div class="level-requirements">0 - 50 دولار</div>
+                </div>
+                
+                <div class="level-card">
+                    <i class="fas fa-user-friends level-icon"></i>
+                    <h3 class="level-name">نشط</h3>
+                    <div class="level-reward">+5% على جميع المهام</div>
+                    <div class="level-requirements">50 - 200 دولار</div>
+                </div>
+                
+                <div class="level-card current">
+                    <i class="fas fa-crown level-icon"></i>
+                    <h3 class="level-name">محترف</h3>
+                    <div class="level-reward">+15% على جميع المهام</div>
+                    <div class="level-requirements">200 - 500 دولار</div>
+                </div>
+                
+                <div class="level-card">
+                    <i class="fas fa-star level-icon"></i>
+                    <h3 class="level-name">ماسي</h3>
+                    <div class="level-reward">+25% على جميع المهام</div>
+                    <div class="level-requirements">+500 دولار</div>
+                </div>
+                
+                <div class="level-card">
+                    <i class="fas fa-gem level-icon"></i>
+                    <h3 class="level-name">أسطوري</h3>
+                    <div class="level-reward">+50% على جميع المهام</div>
+                    <div class="level-requirements">دعوة خاصة</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- كيفية الاستبدال -->
+        <div class="how-to-redeem">
+            <h2><i class="fas fa-question-circle"></i> كيفية استبدال الهدايا</h2>
+            
+            <div class="redeem-steps">
+                <div class="redeem-step">
+                    <i class="fas fa-wallet"></i>
+                    <h3>اجمع رصيداً كافياً</h3>
+                    <p>أكمل المهام والعروض لجمع الدولارات</p>
+                </div>
+                
+                <div class="redeem-step">
+                    <i class="fas fa-gift"></i>
+                    <h3>اختر الهدية المناسبة</h3>
+                    <p>تصفح المتجر واختر ما يناسبك</p>
+                </div>
+                
+                <div class="redeem-step">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>اضغط على استبدال</h3>
+                    <p>تأكد من صحة معلومات الاستلام</p>
+                </div>
+                
+                <div class="redeem-step">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>استلم هديتك</h3>
+                    <p>ستصل الهدية خلال 24 ساعة</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تفاصيل الهدية -->
+    <div class="modal" id="giftDetailsModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="close-modal" onclick="closeGiftDetails()">&times;</span>
+            <div id="giftDetailsContent">
+                <!-- سيتم تعبئته جافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة استبدال الهدية -->
+    <div class="modal" id="redeemGiftModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeRedeemModal()">&times;</span>
+            <div id="redeemGiftContent">
+                <!-- سيتم تعبئته جافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // بيانات الهدايا
+        const allGifts = [
+            {
+                id: 1,
+                title: "بطاقة Visa 1 دولار",
+                description: "بطاقة فيزا مسبقة الدفع بقيمة 1 دولار أمريكي، صالحة للتسوق في جميع المواقع التي تقبل Visa.",
+                price: "$1.00",
+                originalPrice: "$1.10",
+                stock: 984,
+                category: "بطاقات",
+                images: [
+                    "https://cdn-icons-png.flaticon.com/512/196/196578.png",
+                    "https://cdn-icons-png.flaticon.com/512/196/196561.png"
+                ],
+                badge: "hot",
+                deliveryTime: "فوري",
+                terms: "صالحة لمدة 12 شهراً، لا يمكن استبدالها نقداً"
+            },
+            {
+                id: 2,
+                title: "بطاقة Free Fire 100 ماسة",
+                description: "بطاقة شحن للعبة فري فاير بقيمة 100 ماسة، يمكن استخدامها لشراء عناصر داخل اللعبة.",
+                price: "$0.99",
+                originalPrice: "$1.20",
+                stock: 754,
+                category: "ألعاب",
+                images: [
+                    "https://cdn-icons-png.flaticon.com/512/3067/3067256.png"
+                ],
+                badge: "limited",
+                deliveryTime: "5 دقائق",
+                terms: "للعبة فري فاير فقط، غير قابلة للاسترداد"
+            },
+            {
+                id: 3,
+                title: "سحب PayPal 5 دولارات",
+                description: "سحب مباشر إلى حساب PayPal الخاص بك، الأموال تصل خلال 24 ساعة عمل.",
+                price: "$5.00",
+                originalPrice: "$5.00",
+                stock: 1200,
+                category: "سحب",
+                images: [
+                    "https://cdn-icons-png.flaticon.com/512/196/196561.png"
+                ],
+                badge: "hot",
+                deliveryTime: "24 ساعة",
+                terms: "الحد الأدنى للسحب 5 دولارات، تحتاج حساب PayPal مفعل"
+            },
+            {
+                id: 4,
+                title: "اشتراك Netflix شهري",
+                description: "اشتراك شهري في Netflix، استمتع بآلاف الأفلام والمسلسلات بدون إعلانات.",
+                price: "$12.99",
+                originalPrice: "$15.99",
+                stock: 356,
+                category: "ترفيه",
+                images: [
+                    "https://cdn-icons-png.flaticon.com/512/732/732228.png"
+                ],
+                badge: "new",
+                deliveryTime: "فوري",
+                terms: "لحسابات جديدة فقط، صالح لمدة 30 يوماً"
+            },
+            {
+                id: 5,
+                title: "بطاقة Google Play 10 دولارات",
+                description: "بطاقة شحن لمتجر Google Play بقيمة 10 دولارات، لشراء التطبيقات والألعاب.",
+                price: "$10.00",
+                originalPrice: "$10.50",
+                stock: 623,
+                category: "بطاقات",
+                images: [
+                    "https://cdn-icons-png.flaticon.com/512/300/300221.png"
+                ],
+                badge: "",
+                deliveryTime: "10 دقائق",
+                terms: "لحسابات Google Play فقط، صالحة عالمياً"
+            },
+            {
+                id: 6,
+                title: "بطاقة Apple Store 25 دولار",
+                description: "بطاقة هدايا لمتجر Apple بقيمة 25 دولاراً، لشراء التطبيقات والموسيقى والأفلام.",
+                price: "$25.00",
+                originalPrice: "$26.50",
+                stock: 287,
+                category: "بطاقات",
+                images: [
+                    "https://cdn-icons-png.flaticon.com/512/0/747.png"
+                ],
+                badge: "",
+                deliveryTime: "15 دقيقة",
+                terms: "لحسابات Apple فقط، غير قابلة للاسترداد"
+            },
+            {
+                id: 7,
+                title: "بطاقة Steam 20 دولار",
+                description: "بطاقة شحن لمنصة Steam بقيمة 20 دولاراً، لشراء الألعاب والمحتوى الإضافي.",
+                price: "$20.00",
+                originalPrice: "$21.00",
+                stock: 412,
+                category: "ألعاب",
+                images: [
+                    "https://cdn-icons-png.flaticon.com/512/220/220223.png"
+                ],
+                badge: "",
+                deliveryTime: "فوري",
+                terms: "لحسابات Steam فقط، صالحة عالمياً"
+            },
+            {
+                id: 8,
+                title: "سحب بنكي 50 دولار",
+                description: "تحويل بنكي مباشر إلى حسابك المصرفي، برسوم تحويل 0%.",
+                price: "$50.00",
+                originalPrice: "$50.00",
+                stock: 189,
+                category: "سحب",
+                images: [
+                    "https://cdn-icons-png.flaticon.com/512/2331/2331966.png"
+                ],
+                badge: "limited",
+                deliveryTime: "2-3 أيام عمل",
+                terms: "تحتاج معلومات حساب بنكي صحيحة"
+            }
+        ];
+
+        // التصنيفات
+        const categories = [
+            { id: 'all', name: 'الكل', icon: 'fas fa-gift', count: allGifts.length },
+            { id: 'بطاقات', name: 'بطاقات هدايا', icon: 'fas fa-credit-card', count: allGifts.filter(g => g.category === 'بطاقات').length },
+            { id: 'ألعاب', name: 'ألعاب', icon: 'fas fa-gamepad', count: allGifts.filter(g => g.category === 'ألعاب').length },
+            { id: 'سحب', name: 'سحب أموال', icon: 'fas fa-money-bill-wave', count: allGifts.filter(g => g.category === 'سحب').length },
+            { id: 'ترفيه', name: 'ترفيه', icon: 'fas fa-film', count: allGifts.filter(g => g.category === 'ترفيه').length },
+            { id: 'تسوق', name: 'تسوق', icon: 'fas fa-shopping-bag', count: 0 }
+        ];
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            setupCategories();
+            displayGifts(allGifts);
+        });
+
+        // إعداد التصنيفات
+        function setupCategories() {
+            const categoriesTabs = document.getElementById('categoriesTabs');
+            if (!categoriesTabs) return;
+            
+            categoriesTabs.innerHTML = '';
+            
+            categories.forEach(category => {
+                const tab = document.createElement('div');
+                tab.className = `category-tab ${category.id === 'all' ? 'active' : ''}`;
+                tab.dataset.category = category.id;
+                tab.innerHTML = `
+                    <i class="${category.icon} category-icon"></i>
+                    ${category.name}
+                    <span style="background: ${category.id === 'all' ? 'white' : '#dee2e6'}; color: ${category.id === 'all' ? 'var(--primary-color)' : '#495057'}; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; margin-right: 5px;">
+                        ${category.count}
+                    </span>
+                `;
+                tab.onclick = () => filterByCategory(category.id);
+                categoriesTabs.appendChild(tab);
+            });
+        }
+
+        // تصفية حسب التصنيف
+        function filterByCategory(categoryId) {
+            // تحديث الأزرار النشطة
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.category === categoryId) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            let filteredGifts = allGifts;
+            if (categoryId !== 'all') {
+                filteredGifts = allGifts.filter(gift => gift.category === categoryId);
+            }
+            
+            displayGifts(filteredGifts);
+        }
+
+        // عرض الهدايا
+        function displayGifts(gifts) {
+            const giftsGrid = document.getElementById('giftsGrid');
+            if (!giftsGrid) return;
+            
+            giftsGrid.innerHTML = '';
+            
+            if (gifts.length === 0) {
+                giftsGrid.innerHTML = `
+                    <div class="no-gifts">
+                        <i class="fas fa-gift"></i>
+                        <h3>لا توجد هدايا مطابقة</h3>
+                        <p>جرب تغيير معايير البحث أو اختر تصنيفاً آخر</p>
+                        <button class="btn btn-primary mt-20" onclick="resetGiftFilters()">
+                            <i class="fas fa-redo"></i> عرض جميع الهدايا
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            gifts.forEach(gift => {
+                const giftCard = document.createElement('div');
+                giftCard.className = 'gift-card-large';
+                
+                let badgeHtml = '';
+                if (gift.badge === 'hot') {
+                    badgeHtml = '<div class="gift-badge hot"><i class="fas fa-fire"></i> الأكثر طلباً</div>';
+                } else if (gift.badge === 'new') {
+                    badgeHtml = '<div class="gift-badge new"><i class="fas fa-star"></i> جديد</div>';
+                } else if (gift.badge === 'limited') {
+                    badgeHtml = '<div class="gift-badge limited"><i class="fas fa-clock"></i> محدود</div>';
+                }
+                
+                const stockClass = gift.stock < 100 ? 'stock-low' : '';
+                const stockText = gift.stock < 100 ? `آخر ${gift.stock} وحدة` : `${gift.stock} وحدة متاحة`;
+                
+                giftCard.innerHTML = `
+                    ${badgeHtml}
+                    <div class="gift-image">
+                        <img src="${gift.images[0]}" alt="${gift.title}">
+                        <div class="gift-stock-overlay">
+                            <i class="fas fa-box"></i> ${stockText}
+                        </div>
+                    </div>
+                    <div class="gift-content">
+                        <h3 class="gift-title">${gift.title}</h3>
+                        <p class="gift-description">${gift.description}</p>
+                        
+                        <div class="gift-meta">
+                            <div class="gift-price">${gift.price}</div>
+                            <div class="gift-stock ${stockClass}">
+                                <i class="fas fa-box-open"></i> ${stockText}
+                            </div>
+                        </div>
+                        
+                        <div class="gift-actions">
+                            <button class="btn btn-outline btn-block" onclick="showGiftDetails(${gift.id})">
+                                <i class="fas fa-info-circle"></i> التفاصيل
+                            </button>
+                            <button class="btn btn-primary btn-block" onclick="redeemGift(${gift.id})" ${gift.stock <= 0 ? 'disabled' : ''}>
+                                <i class="fas fa-shopping-cart"></i> استبدال
+                            </button>
+                        </div>
+                    </div>
+                `;
+                giftsGrid.appendChild(giftCard);
+            });
+        }
+
+        // تصفية الهدايا
+        function filterGifts() {
+            const searchTerm = document.getElementById('giftSearch').value.toLowerCase();
+            const activeCategory = document.querySelector('.category-tab.active').dataset.category;
+            
+            let filteredGifts = allGifts;
+            
+            // تصفية حسب التصنيف النشط
+            if (activeCategory !== 'all') {
+                filteredGifts = filteredGifts.filter(gift => gift.category === activeCategory);
+            }
+            
+            // تصفية حسب البحث
+            if (searchTerm) {
+                filteredGifts = filteredGifts.filter(gift => 
+                    gift.title.toLowerCase().includes(searchTerm) || 
+                    gift.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            displayGifts(filteredGifts);
+        }
+
+        // إعادة تعيين الفلاتر
+        function resetGiftFilters() {
+            document.getElementById('giftSearch').value = '';
+            
+            // تفعيل تصنيف "الكل"
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.category === 'all') {
+                    tab.classList.add('active');
+                }
+            });
+            
+            displayGifts(allGifts);
+        }
+
+        // عرض تفاصيل الهدية
+        function showGiftDetails(giftId) {
+            const gift = allGifts.find(g => g.id === giftId);
+            if (!gift) return;
+            
+            const modal = document.getElementById('giftDetailsModal');
+            const content = document.getElementById('giftDetailsContent');
+            
+            let badgeText = '';
+            if (gift.badge === 'hot') badgeText = 'الأكثر طلباً';
+            else if (gift.badge === 'new') badgeText = 'جديد';
+            else if (gift.badge === 'limited') badgeText = 'كمية محدودة';
+            
+            content.innerHTML = `
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <img src="${gift.images[0]}" alt="${gift.title}" style="width: 150px; height: 150px; object-fit: contain; margin-bottom: 20px;">
+                    ${badgeText ? `<span class="gift-badge ${gift.badge}" style="position: static; display: inline-block; margin-bottom: 15px;">${badgeText}</span>` : ''}
+                    <h2 style="margin-bottom: 10px; color: var(--dark-color);">${gift.title}</h2>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: var(--accent-color); margin-bottom: 5px;">${gift.price}</div>
+                    ${gift.originalPrice ? `<div style="color: #999; text-decoration: line-through; margin-bottom: 20px;">${gift.originalPrice}</div>` : ''}
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 10px; color: var(--dark-color);">الوصف</h3>
+                    <p style="line-height: 1.8; color: #555; background: #f8f9fa; padding: 15px; border-radius: 8px;">${gift.description}</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px;">
+                    <div style="background: #e8f4fc; padding: 15px; border-radius: 8px; text-align: center;">
+                        <div style="font-weight: 600; color: var(--dark-color); margin-bottom: 5px;">التصنيف</div>
+                        <div><i class="fas fa-tag"></i> ${gift.category}</div>
+                    </div>
+                    <div style="background: #f0f8f0; padding: 15px; border-radius: 8px; text-align: center;">
+                        <div style="font-weight: 600; color: var(--dark-color); margin-bottom: 5px;">وقت التوصيل</div>
+                        <div><i class="fas fa-clock"></i> ${gift.deliveryTime}</div>
+                    </div>
+                    <div style="background: #fff8e6; padding: 15px; border-radius: 8px; text-align: center;">
+                        <div style="font-weight: 600; color: var(--dark-color); margin-bottom: 5px;">المخزون</div>
+                        <div><i class="fas fa-box"></i> ${gift.stock} وحدة</div>
+                    </div>
+                    <div style="background: #f9f0ff; padding: 15px; border-radius: 8px; text-align: center;">
+                        <div style="font-weight: 600; color: var(--dark-color); margin-bottom: 5px;">الحالة</div>
+                        <div>${gift.stock > 0 ? '<span style="color: green;">✓ متاح</span>' : '<span style="color: red;">✗ غير متاح</span>'}</div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 10px; color: var(--dark-color);">الشروط والأحكام</h3>
+                    <p style="background: #fff3cd; padding: 15px; border-radius: 8px; border-right: 4px solid #ffc107; color: #856404;">
+                        ${gift.terms}
+                    </p>
+                </div>
+                
+                <div style="display: flex; gap: 15px;">
+                    <button class="btn btn-outline" style="flex: 1;" onclick="closeGiftDetails()">
+                        <i class="fas fa-times"></i> إغلاق
+                    </button>
+                    <button class="btn btn-primary" style="flex: 1;" onclick="redeemGift(${gift.id})" ${gift.stock <= 0 ? 'disabled' : ''}>
+                        <i class="fas fa-shopping-cart"></i> استبدال الآن
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // إغلاق تفاصيل الهدية
+        function closeGiftDetails() {
+            document.getElementById('giftDetailsModal').style.display = 'none';
+        }
+
+        // استبدال هدية
+        function redeemGift(giftId) {
+            const gift = allGifts.find(g => g.id === giftId);
+            if (!gift) return;
+            
+            // التحقق من المخزون
+            if (gift.stock <= 0) {
+                alert('نفذت الكمية من هذه الهدية!');
+                return;
+            }
+            
+            // التحقق من الرصيد (محاكاة)
+            const userBalance = parseFloat(document.getElementById('userBalance').textContent.replace('$', ''));
+            const giftPrice = parseFloat(gift.price.replace('$', ''));
+            
+            if (userBalance < giftPrice) {
+                alert(`رصيدك غير كافي! تحتاج $${giftPrice} ورصيدك الحالي $${userBalance.toFixed(2)}`);
+                return;
+            }
+            
+            const modal = document.getElementById('redeemGiftModal');
+            const content = document.getElementById('redeemGiftContent');
+            
+            content.innerHTML = `
+                <h2 style="margin-bottom: 20px; text-align: center;">استبدال هدية</h2>
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <img src="${gift.images[0]}" alt="${gift.title}" style="width: 100px; height: 100px; object-fit: contain; margin-bottom: 15px;">
+                    <h3>${gift.title}</h3>
+                    <p style="color: #666;">السعر: <strong style="color: var(--accent-color); font-size: 1.5rem;">${gift.price}</strong></p>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+                    <h4 style="margin-bottom: 15px; color: var(--dark-color);">معلومات الاستلام</h4>
+                    
+                    <div class="form-group">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" id="redeemEmail" class="form-control" placeholder="أدخل بريدك الإلكتروني" value="ahmed@example.com">
+                    </div>
+                    
+                    ${gift.category === 'بطاقات' || gift.category === 'ألعاب' ? `
+                    <div class="form-group">
+                        <label>اسم المستخدم أو ID</label>
+                        <input type="text" id="redeemUsername" class="form-control" placeholder="أدخل اسم المستخدم أو ID للعبة">
+                    </div>
+                    ` : ''}
+                    
+                    ${gift.category === 'سحب' ? `
+                    <div class="form-group">
+                        <label>رقم حساب PayPal أو البنك</label>
+                        <input type="text" id="redeemAccount" class="form-control" placeholder="أدخل رقم حسابك">
+                    </div>
+                    ` : ''}
+                    
+                    <div class="form-group">
+                        <label>ملاحظات إضافية (اختياري)</label>
+                        <textarea id="redeemNotes" class="form-control" rows="3" placeholder="أضف أي ملاحظات..."></textarea>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 15px;">
+                    <button class="btn btn-outline" style="flex: 1;" onclick="closeRedeemModal()">
+                        <i class="fas fa-times"></i> إلغاء
+                    </button>
+                    <button class="btn btn-primary" style="flex: 1;" onclick="confirmRedeem(${gift.id})">
+                        <i class="fas fa-check"></i> تأكيد الاستبدال
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // تأكيد الاستبدال
+        function confirmRedeem(giftId) {
+            const gift = allGifts.find(g => g.id === giftId);
+            if (!gift) return;
+            
+            const email = document.getElementById('redeemEmail').value;
+            if (!email || !email.includes('@')) {
+                alert('يرجى إدخال بريد إلكتروني صحيح!');
+                return;
+            }
+            
+            closeRedeemModal();
+            closeGiftDetails();
+            
+            // محاكاة عملية الاستبدال
+            alert(`تم طلب استبدال ${gift.title} بنجاح!\nسيتم إرسال الهدية إلى ${email} خلال ${gift.deliveryTime}`);
+            
+            // في الإصدار النهائي، سيتم تحديث قاعدة البيانات
+            console.log(`استبدل المستخدم الهدية رقم ${giftId}`);
+        }
+
+        // إغلاق نافذة الاستبدال
+        function closeRedeemModal() {
+            document.getElementById('redeemGiftModal').style.display = 'none';
+        }
+    </script>
+</body>
+  </html>
