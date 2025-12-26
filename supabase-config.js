@@ -1,8 +1,8 @@
 // supabase-config.js - إعداد Supabase لـ Fast Cach
 
 // هذه القيم ستكون مختلفة لكل مشروع
-const SUPABASE_URL = 'https://your-project.supabase.co'; // استبدل برابط مشروعك
-const SUPABASE_ANON_KEY = 'your-anon-key-here'; // استبدل بالمفتاح العام
+const SUPABASE_URL = 'https://sbrrqxqeylmmisgieocn.supabase.co'; // استبدل برابط مشروعك
+const SUPABASE_ANON_KEY = 'sb_publishable_2Ql9w5OBR44RKNBBpb6ggw_imjVAXkO'; // استبدل بالمفتاح العام
 
 // تهيئة Supabase
 const { createClient } = supabase;
