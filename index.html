@@ -1,0 +1,294 @@
+here<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Cach - اربح دولارات من مهام بسيطة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="assets/logo.png">
+</head>
+<body>
+    <!-- شريط التنقل العلوي -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="assets/logo.png" alt="Fast Cach Logo" class="logo">
+                <h1 class="site-title">Fast<span>Cach</span></h1>
+            </div>
+            
+            <div class="nav-links">
+                <a href="index.html" class="active"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="offers.html"><i class="fas fa-tasks"></i> المهام والعروض</a>
+                <a href="gifts.html"><i class="fas fa-gift"></i> الهدايا والمستويات</a>
+                <a href="dashboard.html"><i class="fas fa-user-circle"></i> لوحة التحكم</a>
+            </div>
+            
+            <div class="user-section">
+                <div class="balance-display">
+                    <i class="fas fa-wallet"></i>
+                    <span id="userBalance">$0.00</span>
+                </div>
+                <div class="auth-buttons">
+                    <button id="loginBtn" class="btn btn-outline"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</button>
+                    <button id="registerBtn" class="btn btn-primary"><i class="fas fa-user-plus"></i> إنشاء حساب</button>
+                </div>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- قسم البطل الرئيسي -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2 class="hero-title">اربح <span class="highlight">دولارات حقيقية</span> من مهام بسيطة!</h2>
+            <p class="hero-subtitle">سجل، أكمل المهام، استلم أموالك عبر PayPal أو استبدل ببطاقات هدايا!</p>
+            
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>+10,000</h3>
+                    <p>مستخدم نشط</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h3>$50,000+</h3>
+                    <p>أموال تم دفعها</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>1,000+</h3>
+                    <p>هدية مستبدلة</p>
+                </div>
+            </div>
+            
+            <div class="hero-actions">
+                <button class="btn btn-primary btn-large" id="startEarningBtn">
+                    <i class="fas fa-play-circle"></i> ابدأ الربح الآن
+                </button>
+                <button class="btn btn-secondary btn-large" id="howItWorksBtn">
+                    <i class="fas fa-question-circle"></i> كيف يعمل؟
+                </button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="ربح المال">
+        </div>
+    </section>
+
+    <!-- قسم كيف يعمل -->
+    <section class="how-it-works">
+        <h2 class="section-title">كيفية <span>الربح</span> في 4 خطوات بسيطة</h2>
+        
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <i class="fas fa-user-plus step-icon"></i>
+                <h3>أنشئ حسابك</h3>
+                <p>سجل بسرعة باستخدام بريدك الإلكتروني أو حساب Google</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <i class="fas fa-tasks step-icon"></i>
+                <h3>أكمل المهام</h3>
+                <p>اختر من بين مئات المهام البسيطة التي تدفع لك فورًا</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <i class="fas fa-wallet step-icon"></i>
+                <h3>اجمع رصيدك</h3>
+                <p>راقب رصيدك ينمو مع كل مهمة تكملها</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <i class="fas fa-gift step-icon"></i>
+                <h3>استبدل أو اسحب</h3>
+                <p>اسحب أموالك لـ PayPal أو استبدل ببطاقات هدايا</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المميزات -->
+    <section class="features">
+        <h2 class="section-title">لماذا <span>Fast Cach</span>؟</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>آمن 100%</h3>
+                <p>نظام متقدم لكشف VPN والحسابات المزيفة لحماية أرباحك</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>دفعات فورية</h3>
+                <p>استلم أموالك فور طلب السحب - لا انتظار لأسابيع</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>دعم عربي</h3>
+                <p>فريق دعم عربي متاح 24/7 لمساعدتك في أي استفسار</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>نظام مستويات</h3>
+                <p>ارتقِ بمستواك واكسب مكافآت ومزايا حصرية</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم العروض الحالية -->
+    <section class="offers-preview">
+        <div class="section-header">
+            <h2 class="section-title">أفضل <span>العروض</span> الحالية</h2>
+            <a href="offers.html" class="view-all">عرض الكل <i class="fas fa-arrow-left"></i></a>
+        </div>
+        
+        <div class="offers-grid" id="offersGrid">
+            <!-- سيتم تعبئتها جافاسكريبت -->
+        </div>
+    </section>
+
+    <!-- قسم الهدايا الشائعة -->
+    <section class="gifts-preview">
+        <div class="section-header">
+            <h2 class="section-title">أشهر <span>الهدايا</span> للاستبدال</h2>
+            <a href="gifts.html" class="view-all">عرض الكل <i class="fas fa-arrow-left"></i></a>
+        </div>
+        
+        <div class="gifts-grid" id="giftsGrid">
+            <!-- سيتم تعبئتها جافاسكريبت -->
+        </div>
+    </section>
+
+    <!-- تذييل الصفحة -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="logo-section">
+                    <img src="assets/logo.png" alt="Fast Cach Logo" class="logo">
+                    <h2 class="site-title">Fast<span>Cach</span></h2>
+                </div>
+                <p>أفضل منصة عربية لربح المال من مهام بسيطة. ابدأ رحلتك نحو الحرية المالية اليوم!</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>روابط سريعة</h3>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="offers.html">المهام والعروض</a></li>
+                    <li><a href="gifts.html">الهدايا</a></li>
+                    <li><a href="dashboard.html">لوحة التحكم</a></li>
+                    <li><a href="#">الشروط والأحكام</a></li>
+                    <li><a href="#">الأسئلة الشائعة</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>طرق الدفع</h3>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-paypal"></i>
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-apple-pay"></i>
+                </div>
+                <h3 class="mt-20">تواصل معنا</h3>
+                <p><i class="fas fa-envelope"></i> support@fastcach.com</p>
+                <p><i class="fas fa-phone"></i> +966 123 456 789</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2023 Fast Cach. جميع الحقوق محفوظة. | <a href="#">سياسة الخصوصية</a></p>
+        </div>
+    </footer>
+
+    <!-- نافذة تسجيل الدخول -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>تسجيل الدخول</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">البريد الإلكتروني</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">كلمة المرور</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">دخول</button>
+                <div class="form-divider">أو</div>
+                <button type="button" class="btn btn-google btn-block">
+                    <i class="fab fa-google"></i> تسجيل الدخول بجوجل
+                </button>
+                <p class="form-footer">ليس لديك حساب؟ <a href="#" id="showRegister">إنشاء حساب</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- نافذة التسجيل -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>إنشاء حساب جديد</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">الاسم الكامل</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">البريد الإلكتروني</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">كلمة المرور</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">تأكيد كلمة المرور</label>
+                    <input type="password" id="registerConfirmPassword" required>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <label for="agreeTerms">أوافق على <a href="#">الشروط والأحكام</a></label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">إنشاء حساب</button>
+                <div class="form-divider">أو</div>
+                <button type="button" class="btn btn-google btn-block">
+                    <i class="fab fa-google"></i> التسجيل بجوجل
+                </button>
+                <p class="form-footer">لديك حساب بالفعل؟ <a href="#" id="showLogin">تسجيل الدخول</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- أكواد الإعلانات (ستضاف من لوحة التحكم) -->
+    <div id="adsContainer"></div>
+
+    <script src="script.js"></script>
+    <script src="supabase-config.js"></script>
+</body>
+</html>
