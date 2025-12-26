@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>العروض والمهام - Fast Cach</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* تنسيقات خاصة بصفحة العروض */
+        .offers-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .offers-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .filters-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .filters-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .filter-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+        
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .offer-card-large {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .offer-card-large:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary-color);
+        }
+        
+        .offer-header {
+            padding: 25px;
+            text-align: center;
+            color: white;
+        }
+        
+        .offer-header.green { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .offer-header.blue { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .offer-header.purple { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .offer-header.orange { background: linear-gradient(135deg, #e67e22, #d35400); }
+        .offer-header.red { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        
+        .offer-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .offer-content {
+            padding: 25px;
+        }
+        
+        .offer-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        
+        .offer-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .offer-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .offer-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--success-color);
+        }
+        
+        .offer-difficulty {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .difficulty-easy { background-color: #d4edda; color: #155724; }
+        .difficulty-medium { background-color: #fff3cd; color: #856404; }
+        .difficulty-hard { background-color: #f8d7da; color: #721c24; }
+        
+        .offer-details {
+            margin-bottom: 20px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .detail-item i {
+            width: 25px;
+            color: var(--primary-color);
+            margin-left: 10px;
+        }
+        
+        .offer-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-block {
+            flex: 1;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+        
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background-color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .page-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .page-btn:hover:not(.active) {
+            background-color: #f8f9fa;
+        }
+        
+        .no-offers {
+            text-align: center;
+            padding: 50px;
+            grid-column: 1 / -1;
+        }
+        
+        .no-offers i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .offers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters-row {
+                flex-direction: column;
+            }
+            
+            .filter-actions {
+                justify-content: center;
+            }
+            
+            .offer-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="assets/logo.png" alt="Fast Cach Logo" class="logo">
+                <h1 class="site-title">Fast<span>Cach</span></h1>
+            </div>
+            
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="offers.html" class="active"><i class="fas fa-tasks"></i> المهام والعروض</a>
+                <a href="gifts.html"><i class="fas fa-gift"></i> الهدايا والمستويات</a>
+                <a href="dashboard.html"><i class="fas fa-user-circle"></i> لوحة التحكم</a>
+            </div>
+            
+            <div class="user-section">
+                <div class="balance-display">
+                    <i class="fas fa-wallet"></i>
+                    <span id="userBalance">$15.75</span>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                    </button>
+                    <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
+                        <i class="fas fa-user-circle"></i> حسابي
+                    </button>
+                </div>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- محتوى صفحة العروض -->
+    <div class="offers-container">
+        <!-- رأس الصفحة -->
+        <div class="offers-header">
+            <h1 style="font-size: 2.5rem; margin-bottom: 10px;">المهام والعروض</h1>
+            <p style="font-size: 1.2rem; opacity: 0.9;">اختر من بين مئات المهام واكسب دولارات حقيقية</p>
+        </div>
+
+        <!-- قسم التصفية -->
+        <div class="filters-section">
+            <h3 style="margin-bottom: 20px;"><i class="fas fa-filter"></i> تصفية العروض</h3>
+            
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label>التصنيف</label>
+                    <select id="categoryFilter">
+                        <option value="all">جميع التصنيفات</option>
+                        <option value="تطبيقات">تطبيقات</option>
+                        <option value="استبيانات">استبيانات</option>
+                        <option value="فيديوهات">فيديوهات</option>
+                        <option value="ألعاب">ألعاب</option>
+                        <option value="تسوق">تسوق</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>الصعوبة</label>
+                    <select id="difficultyFilter">
+                        <option value="all">جميع المستويات</option>
+                        <option value="easy">سهل</option>
+                        <option value="medium">متوسط</option>
+                        <option value="hard">صعب</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>المكافأة</label>
+                    <select id="rewardFilter">
+                        <option value="all">جميع المكافآت</option>
+                        <option value="low">أقل من $2</option>
+                        <option value="medium">$2 - $5</option>
+                        <option value="high">أكثر من $5</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label>المدة التقريبية</label>
+                    <select id="durationFilter">
+                        <option value="all">أي مدة</option>
+                        <option value="short">أقل من 5 دقائق</option>
+                        <option value="medium">5 - 15 دقيقة</option>
+                        <option value="long">أكثر من 15 دقيقة</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>بحث بالكلمات</label>
+                    <input type="text" id="searchFilter" placeholder="ابحث عن عرض...">
+                </div>
+                
+                <div class="filter-group">
+                    <label>الترتيب حسب</label>
+                    <select id="sortFilter">
+                        <option value="newest">الأحدث</option>
+                        <option value="highest">الأعلى مكافأة</option>
+                        <option value="easiest">الأسهل</option>
+                        <option value="popular">الأكثر شعبية</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="btn btn-outline" onclick="resetFilters()">
+                    <i class="fas fa-redo"></i> إعادة تعيين
+                </button>
+                <button class="btn btn-primary" onclick="applyFilters()">
+                    <i class="fas fa-search"></i> تطبيق التصفية
+                </button>
+            </div>
+        </div>
+
+        <!-- شبكة العروض -->
+        <div class="offers-grid" id="offersGrid">
+            <!-- سيتم تعبئتها جافاسكريبت -->
+        </div>
+
+        <!-- الترقيم الصفحي -->
+        <div class="pagination" id="pagination">
+            <!-- سيتم تعبئتها جافاسكريبت -->
+        </div>
+    </div>
+
+    <!-- نافذة تفاصيل العرض -->
+    <div class="modal" id="offerDetailsModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close-modal" onclick="closeOfferDetails()">&times;</span>
+            <div id="offerDetailsContent">
+                <!-- سيتم تعبئته جافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة بدء العرض -->
+    <div class="modal" id="startOfferModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeStartOffer()">&times;</span>
+            <div id="startOfferContent">
+                <!-- سيتم تعبئته جافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // بيانات العروض
+        const allOffers = [
+            {
+                id: 1,
+                title: "سجل في تطبيق X واحصل على مكافأة",
+                description: "قم بتحميل وتثبيت تطبيق X وسجل حساب جديد واحصل على مكافأة فورية.",
+                price: "$5.00",
+                category: "تطبيقات",
+                difficulty: "easy",
+                difficultyText: "سهل",
+                duration: 5,
+                requirements: "هاتف ذكي، اتصال إنترنت",
+                instructions: "1. اضغط على زر البدء\n2. حمّل التطبيق من المتجر\n3. سجل بحساب جديد\n4. أكمل التسجيل وانسخ كود التأكيد",
+                popularity: 245,
+                isActive: true,
+                icon: "fas fa-mobile-alt",
+                headerClass: "green"
+            },
+            {
+                id: 2,
+                title: "أكمل استبيان سوقي سريع",
+                description: "أجب على 10 أسئلة سريعة حول عادات التسوق واحصل على مكافأتك.",
+                price: "$2.50",
+                category: "استبيانات",
+                difficulty: "easy",
+                difficultyText: "سهل",
+                duration: 3,
+                requirements: "مستوى تعليمي ثانوي فأعلى",
+                instructions: "1. اضغط على زر البدء\n2. أجب على جميع الأسئلة بصدق\n3. أرسل الإجابات",
+                popularity: 189,
+                isActive: true,
+                icon: "fas fa-clipboard-list",
+                headerClass: "blue"
+            },
+            {
+                id: 3,
+                title: "شاهد فيديو إعلاني كاملاً",
+                description: "شاهد مقطع فيديو إعلاني لمدة 30 ثانية وحصل على مكافأة فورية.",
+                price: "$0.25",
+                category: "فيديوهات",
+                difficulty: "easy",
+                difficultyText: "سهل",
+                duration: 1,
+                requirements: "اتصال إنترنت، مكبر صوت",
+                instructions: "1. اضغط على زر البدء\n2. شاهد الفيديو حتى النهاية\n3. لا تغادر الصفحة أثناء التشغيل",
+                popularity: 542,
+                isActive: true,
+                icon: "fas fa-video",
+                headerClass: "purple"
+            },
+            {
+                id: 4,
+                title: "حمل لعبة Y واجتاز المستوى الأول",
+                description: "قم بتحميل لعبة Y واجتاز المستوى الأول للحصول على مكافأة كبيرة.",
+                price: "$7.00",
+                category: "ألعاب",
+                difficulty: "medium",
+                difficultyText: "متوسط",
+                duration: 15,
+                requirements: "هاتف ذكي بسعة تخزين 500MB",
+                instructions: "1. اضغط على زر البدء\n2. حمّل اللعبة من المتجر\n3. العب حتى تجتاز المستوى الأول\n4. التقط لقطة شاشة للإثبات",
+                popularity: 167,
+                isActive: true,
+                icon: "fas fa-gamepad",
+                headerClass: "orange"
+            },
+            {
+                id: 5,
+                title: "اشترك في قناة تليجرام واحصل على مكافأة",
+                description: "اشترك في قناتنا على تليجرام وابقَ مشتركاً لمدة 7 أيام.",
+                price: "$3.00",
+                category: "تطبيقات",
+                difficulty: "easy",
+                difficultyText: "سهل",
+                duration: 2,
+                requirements: "حساب تليجرام",
+                instructions: "1. اضغط على زر البدء\n2. انضم إلى القناة عبر الرابط\n3. أرسل اسم المستخدم الخاص بك",
+                popularity: 321,
+                isActive: true,
+                icon: "fab fa-telegram",
+                headerClass: "blue"
+            },
+            {
+                id: 6,
+                title: "ابحث عن منتج في موقع التسوق Z",
+                description: "ابحث عن منتج معين في موقع التسوق وشارك رابط المنتج.",
+                price: "$1.50",
+                category: "تسوق",
+                difficulty: "medium",
+                difficultyText: "متوسط",
+                duration: 8,
+                requirements: "اتصال إنترنت، معرفة بالتسوق الإلكتروني",
+                instructions: "1. اضغط على زر البدء\n2. اذهب إلى الموقع المحدد\n3. ابحث عن المنتج\n4. انسخ رابط المنتج وأرسله",
+                popularity: 98,
+                isActive: true,
+                icon: "fas fa-search",
+                headerClass: "red"
+            },
+            {
+                id: 7,
+                title: "شارك منشوراً على فيسبوك",
+                description: "شارك منشوراً محدداً على صفحتك الشخصية في فيسبوك.",
+                price: "$1.00",
+                category: "تسوق",
+                difficulty: "easy",
+                difficultyText: "سهل",
+                duration: 3,
+                requirements: "حساب فيسبوك نشط",
+                instructions: "1. اضغط على زر البدء\n2. اذهب إلى المنشور المحدد\n3. شاركه على صفحتك\n4. التقط لقطة شاشة",
+                popularity: 412,
+                isActive: true,
+                icon: "fab fa-facebook",
+                headerClass: "blue"
+            },
+            {
+                id: 8,
+                title: "اختبار تطبيق جديد وإبداء رأيك",
+                description: "قم باختبار تطبيق جديد لمدة 10 دقائق واكتب تقييماً مفصلاً.",
+                price: "$4.50",
+                category: "تطبيقات",
+                difficulty: "hard",
+                difficultyText: "صعب",
+                duration: 25,
+                requirements: "هاتف أندرويد/آيفون، مهارات تقنية",
+                instructions: "1. اضغط على زر البدء\n2. حمّل التطبيق\n3. اختبر جميع الميزات\n4. اكتب تقريراً مفصلاً",
+                popularity: 76,
+                isActive: true,
+                icon: "fas fa-bug",
+                headerClass: "green"
+            }
+        ];
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            displayOffers(allOffers);
+            setupPagination();
+        });
+
+        // عرض العروض
+        function displayOffers(offers) {
+            const offersGrid = document.getElementById('offersGrid');
+            if (!offersGrid) return;
+            
+            offersGrid.innerHTML = '';
+            
+            if (offers.length === 0) {
+                offersGrid.innerHTML = `
+                    <div class="no-offers">
+                        <i class="fas fa-inbox"></i>
+                        <h3>لا توجد عروض مطابقة</h3>
+                        <p>جرب تغيير معايير البحث أو انتظر عروض جديدة</p>
+                        <button class="btn btn-primary mt-20" onclick="resetFilters()">
+                            <i class="fas fa-redo"></i> عرض جميع العروض
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            offers.forEach(offer => {
+                const offerCard = document.createElement('div');
+                offerCard.className = 'offer-card-large';
+                offerCard.innerHTML = `
+                    <div class="offer-header ${offer.headerClass}">
+                        <i class="${offer.icon} offer-icon"></i>
+                        <h3 class="offer-title" style="color: white;">${offer.title}</h3>
+                        <div class="offer-price">${offer.price}</div>
+                    </div>
+                    <div class="offer-content">
+                        <p class="offer-description">${offer.description}</p>
+                        
+                        <div class="offer-meta">
+                            <span class="offer-difficulty difficulty-${offer.difficulty}">
+                                ${offer.difficultyText}
+                            </span>
+                            <span><i class="fas fa-clock"></i> ${offer.duration} دقائق</span>
+                            <span><i class="fas fa-users"></i> ${offer.popularity}</span>
+                        </div>
+                        
+                        <div class="offer-details">
+                            <div class="detail-item">
+                                <i class="fas fa-tag"></i>
+                                <span>التصنيف: ${offer.category}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-list-check"></i>
+                                <span>المتطلبات: ${offer.requirements}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="offer-actions">
+                            <button class="btn btn-outline btn-block" onclick="showOfferDetails(${offer.id})">
+                                <i class="fas fa-info-circle"></i> التفاصيل
+                            </button>
+                            <button class="btn btn-primary btn-block" onclick="startOffer(${offer.id})" ${!offer.isActive ? 'disabled' : ''}>
+                                <i class="fas fa-play"></i> بدء المهمة
+                            </button>
+                        </div>
+                    </div>
+                `;
+                offersGrid.appendChild(offerCard);
+            });
+        }
+
+        // تطبيق التصفية
+        function applyFilters() {
+            const category = document.getElementById('categoryFilter').value;
+            const difficulty = document.getElementById('difficultyFilter').value;
+            const reward = document.getElementById('rewardFilter').value;
+            const duration = document.getElementById('durationFilter').value;
+            const search = document.getElementById('searchFilter').value.toLowerCase();
+            const sort = document.getElementById('sortFilter').value;
+            
+            let filteredOffers = [...allOffers];
+            
+            // تصفية حسب التصنيف
+            if (category !== 'all') {
+                filteredOffers = filteredOffers.filter(offer => offer.category === category);
+            }
+            
+            // تصفية حسب الصعوبة
+            if (difficulty !== 'all') {
+                filteredOffers = filteredOffers.filter(offer => offer.difficulty === difficulty);
+            }
+            
+            // تصفية حسب المكافأة
+            if (reward !== 'all') {
+                filteredOffers = filteredOffers.filter(offer => {
+                    const price = parseFloat(offer.price.replace('$', ''));
+                    if (reward === 'low') return price < 2;
+                    if (reward === 'medium') return price >= 2 && price <= 5;
+                    if (reward === 'high') return price > 5;
+                    return true;
+                });
+            }
+            
+            // تصفية حسب المدة
+            if (duration !== 'all') {
+                filteredOffers = filteredOffers.filter(offer => {
+                    if (duration === 'short') return offer.duration < 5;
+                    if (duration === 'medium') return offer.duration >= 5 && offer.duration <= 15;
+                    if (duration === 'long') return offer.duration > 15;
+                    return true;
+                });
+            }
+            
+            // بحث نصي
+            if (search) {
+                filteredOffers = filteredOffers.filter(offer => 
+                    offer.title.toLowerCase().includes(search) || 
+                    offer.description.toLowerCase().includes(search)
+                );
+            }
+            
+            // الترتيب
+            switch(sort) {
+                case 'newest':
+                    filteredOffers.sort((a, b) => b.id - a.id);
+                    break;
+                case 'highest':
+                    filteredOffers.sort((a, b) => {
+                        const priceA = parseFloat(a.price.replace('$', ''));
+                        const priceB = parseFloat(b.price.replace('$', ''));
+                        return priceB - priceA;
+                    });
+                    break;
+                case 'easiest':
+                    const difficultyOrder = { easy: 1, medium: 2, hard: 3 };
+                    filteredOffers.sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+                    break;
+                case 'popular':
+                    filteredOffers.sort((a, b) => b.popularity - a.popularity);
+                    break;
+            }
+            
+            displayOffers(filteredOffers);
+        }
+
+        // إعادة تعيين الفلاتر
+        function resetFilters() {
+            document.getElementById('categoryFilter').value = 'all';
+            document.getElementById('difficultyFilter').value = 'all';
+            document.getElementById('rewardFilter').value = 'all';
+            document.getElementById('durationFilter').value = 'all';
+            document.getElementById('searchFilter').value = '';
+            document.getElementById('sortFilter').value = 'newest';
+            
+            displayOffers(allOffers);
+        }
+
+        // إعداد الترقيم الصفحي
+        function setupPagination() {
+            const pagination = document.getElementById('pagination');
+            if (!pagination) return;
+            
+            pagination.innerHTML = '';
+            
+            for (let i = 1; i <= 5; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `page-btn ${i === 1 ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => changePage(i);
+                pagination.appendChild(pageBtn);
+            }
+            
+            // زر السابق
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'page-btn';
+            prevBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            prevBtn.onclick = () => changePage('prev');
+            pagination.insertBefore(prevBtn, pagination.firstChild);
+            
+            // زر التالي
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'page-btn';
+            nextBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            nextBtn.onclick = () => changePage('next');
+            pagination.appendChild(nextBtn);
+        }
+
+        // تغيير الصفحة
+        function changePage(page) {
+            // تحديث الأزرار النشطة
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                if (!isNaN(parseInt(btn.textContent))) {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // في الإصدار النهائي، سيتم جلب بيانات الصفحة من الخادم
+            alert(`سيتم تحميل الصفحة ${page} (وظيفة كاملة مع Supabase)`);
+        }
+
+        // عرض تفاصيل العرض
+        function showOfferDetails(offerId) {
+            const offer = allOffers.find(o => o.id === offerId);
+            if (!offer) return;
+            
+            const modal = document.getElementById('offerDetailsModal');
+            const content = document.getElementById('offerDetailsContent');
+            
+            content.innerHTML = `
+                <div class="offer-header ${offer.headerClass}" style="border-radius: 10px 10px 0 0; margin: -30px -30px 30px -30px; padding: 30px;">
+                    <i class="${offer.icon}" style="font-size: 3.5rem; margin-bottom: 15px;"></i>
+                    <h2 style="color: white; margin-bottom: 10px;">${offer.title}</h2>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: white;">${offer.price}</div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 15px; color: var(--dark-color);">وصف المهمة</h3>
+                    <p style="line-height: 1.8; color: #555;">${offer.description}</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px;">
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                        <div style="font-weight: 600; color: var(--dark-color); margin-bottom: 5px;">الصعوبة</div>
+                        <div><span class="offer-difficulty difficulty-${offer.difficulty}">${offer.difficultyText}</span></div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                        <div style="font-weight: 600; color: var(--dark-color); margin-bottom: 5px;">المدة</div>
+                        <div><i class="fas fa-clock"></i> ${offer.duration} دقائق</div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                        <div style="font-weight: 600; color: var(--dark-color); margin-bottom: 5px;">التصنيف</div>
+                        <div><i class="fas fa-tag"></i> ${offer.category}</div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 15px; color: var(--dark-color);">المتطلبات</h3>
+                    <p style="background: #f0f8ff; padding: 15px; border-radius: 8px; border-right: 4px solid var(--primary-color);">
+                        ${offer.requirements}
+                    </p>
+                </div>
+                
+                <div style="margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 15px; color: var(--dark-color);">خطوات التنفيذ</h3>
+                    <div style="background: #fff9e6; padding: 20px; border-radius: 8px; border-right: 4px solid #ffc107;">
+                        ${offer.instructions.split('\n').map(step => `<p style="margin-bottom: 10px;">${step}</p>`).join('')}
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 15px;">
+                    <button class="btn btn-outline" style="flex: 1;" onclick="closeOfferDetails()">
+                        <i class="fas fa-times"></i> إغلاق
+                    </button>
+                    <button class="btn btn-primary" style="flex: 1;" onclick="startOffer(${offer.id})">
+                        <i class="fas fa-play"></i> بدء المهمة الآن
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // إغلاق تفاصيل العرض
+        function closeOfferDetails() {
+            document.getElementById('offerDetailsModal').style.display = 'none';
+        }
+
+        // بدء عرض
+        function startOffer(offerId) {
+            const offer = allOffers.find(o => o.id === offerId);
+            if (!offer) return;
+            
+            const modal = document.getElementById('startOfferModal');
+            const content = document.getElementById('startOfferContent');
+            
+            content.innerHTML = `
+                <h2 style="margin-bottom: 20px; text-align: center;">بدء المهمة</h2>
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <i class="${offer.icon}" style="font-size: 4rem; color: var(--primary-color); margin-bottom: 15px;"></i>
+                    <h3>${offer.title}</h3>
+                    <p style="color: #666;">المكافأة: <strong style="color: var(--success-color); font-size: 1.2rem;">${offer.price}</strong></p>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+                    <h4 style="margin-bottom: 15px; color: var(--dark-color);">ملاحظات هامة:</h4>
+                    <ul style="padding-right: 20px; color: #555;">
+                        <li style="margin-bottom: 8px;">لا تستخدم VPN أو بروكسي أثناء تنفيذ المهمة</li>
+                        <li style="margin-bottom: 8px;">أكمل جميع الخطوات بدقة</li>
+                        <li style="margin-bottom: 8px;">لا تغادر الصفحة أثناء التنفيذ</li>
+                        <li>سيتم التحقق من المهمة تلقائياً</li>
+                    </ul>
+                </div>
+                
+                <div style="display: flex; gap: 15px;">
+                    <button class="btn btn-outline" style="flex: 1;" onclick="closeStartOffer()">
+                        <i class="fas fa-times"></i> إلغاء
+                    </button>
+                    <button class="btn btn-primary" style="flex: 1;" onclick="confirmStartOffer(${offer.id})">
+                        <i class="fas fa-check"></i> تأكيد البدء
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // تأكيد بدء العرض
+        function confirmStartOffer(offerId) {
+            closeStartOffer();
+            
+            // محاكاة بدء المهمة
+            alert('تم بدء المهمة بنجاح! انتقل إلى لوحة التحكم لمتابعة التقدم.');
+            
+            // في الإصدار النهائي، سيتم تحديث قاعدة البيانات
+            console.log(`بدأ المستخدم المهمة رقم ${offerId}`);
+        }
+
+        // إغلاق نافذة بدء العرض
+        function closeStartOffer() {
+            document.getElementById('startOfferModal').style.display = 'none';
+        }
+    </script>
+</body>
+  </html>
